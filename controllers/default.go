@@ -8,8 +8,23 @@ type MainController struct {
 	beego.Controller
 }
 
-func (c *MainController) Get() {
-	c.Data["Website"] = "beego.me"
-	c.Data["Email"] = "astaxie@gmail.com"
-	c.TplName = "index.tpl"
+func (this *MainController) Welcome() {
+	this.TplName = "welcome.html"
+}
+func (this *MainController) ChatRoom() {
+	this.TplName = "chatroom.html"
+}
+
+func (this *MainController) Join() {
+	name:=this.GetString("name")
+	this.SetSession("name",name)
+}
+
+func (this *MainController) GetName(){
+	this.Data["name"] = this.GetString("name")
+	this.ServeJSON()
+}
+
+func (this *MainController)WS()  {
+
 }
