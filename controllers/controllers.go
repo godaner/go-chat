@@ -17,6 +17,16 @@ func (this *MainController) Welcome() {
 
 func (this *MainController) Join() {
 	name:=this.GetString("name")
+
+
+	for sub:=subscribers.Front();sub!=nil;sub = sub.Next(){
+		if sub.Value.(Subscriber).Name == name {
+			this.TplName = "welcome.html"
+			beego.Info("MainController Join name is exist : ",name)
+			return
+		}
+	}
+
 	beego.Info("MainController Join session name is : ",name)
 
 	this.SetSession("name",name)
@@ -59,10 +69,11 @@ var (
 )
 
 func (this *MainController)WS()  {
+
 	name:=this.GetString("name")
 
-	conn:=createWS(this)
 
+	conn:=createWS(this)
 
 	subscribe<-Subscriber{
 		Name:name,
