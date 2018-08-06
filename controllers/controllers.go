@@ -63,10 +63,12 @@ func (this *MainController)WS()  {
 
 	conn:=createWS(this)
 
+
 	subscribe<-Subscriber{
 		Name:name,
 		Conn:conn,
 	}
+	defer LeaveWS(name)
 
 	// Message receive loop.
 	for {
@@ -80,6 +82,9 @@ func (this *MainController)WS()  {
 			Type:MSG,
 		}
 	}
+}
+func LeaveWS(name string) {
+	unsubscribe<-name
 }
 
 
@@ -124,17 +129,24 @@ func handleChannel(){
 	}()
 
 
-	//go func() {
-	//	for   {
-	//		unSubName:=<-unsubscribe
-	//		beego.Info("controllers handleChannel select unsubscribe ")
-	//		message<-Messager{
-	//			Name:unSubName,
-	//			Context:"下线",
-	//			Type:OFFLINE,
-	//		}
-	//	}
-	//}()
+	go func() {
+		for   {
+			unSubName:=<-unsubscribe
+			beego.Info("controllers handleChannel select unsubscribe ")
+
+			for sub:=subscribers.Front();sub!=nil;sub = sub.Next(){
+				if sub.Value.(Subscriber).Name == unSubName {
+					subscribers.Remove(sub)
+					break
+				}
+			}
+			message<-Messager{
+				Name:unSubName,
+				Context:"下线",
+				Type:OFFLINE,
+			}
+		}
+	}()
 
 
 
