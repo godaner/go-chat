@@ -11,8 +11,12 @@ type MainController struct {
 	beego.Controller
 }
 
+const (
+	VIEWS_WELCOME =  "welcome.html"
+	VIEWS_CHAT_ROOM =  "chatroom.html"
+)
 func (this *MainController) Welcome() {
-	this.TplName = "welcome.html"
+	this.TplName = VIEWS_WELCOME
 }
 
 func (this *MainController) Join() {
@@ -21,7 +25,7 @@ func (this *MainController) Join() {
 
 	for sub:=subscribers.Front();sub!=nil;sub = sub.Next(){
 		if sub.Value.(Subscriber).Name == name {
-			this.TplName = "welcome.html"
+			this.TplName = VIEWS_WELCOME
 			beego.Info("MainController Join name is exist : ",name)
 			return
 		}
@@ -30,7 +34,7 @@ func (this *MainController) Join() {
 	beego.Info("MainController Join session name is : ",name)
 
 	this.SetSession("name",name)
-	this.TplName = "chatroom.html"
+	this.TplName = VIEWS_CHAT_ROOM
 }
 
 func (this *MainController) GetName(){
@@ -71,7 +75,6 @@ var (
 func (this *MainController)WS()  {
 
 	name:=this.GetString("name")
-
 
 	conn:=createWS(this)
 
