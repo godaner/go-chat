@@ -1,5 +1,9 @@
 h5{
     margin: 0;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 img{
     max-width: 100%;
@@ -85,6 +89,7 @@ body{
     border-radius: 0.1rem;
     border:0.01rem solid #ddd;
     padding : 0 0.15rem;
+    font-size:0.2rem;
 
 
 }
@@ -108,9 +113,22 @@ body{
     display: table;
 }
 
-.msg>img{
+.msg>div{
     width: 0.8rem;
+    background: black;
+    color: white;
     float: left;
+    border-radius: 99px;
+    font-size: 0.2rem;
+    height: 0.8rem;
+    width: 0.8rem;
+    text-align: center;
+    line-height: 0.8rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width:5rem ;
+    padding: 0.1rem;
 }
 .msg>p{
     float: left;
@@ -120,8 +138,9 @@ body{
     font-size: 0.3rem;
     position: relative;
     border-radius: 0.2rem;
-    max-width:5rem ;
+    max-width:4rem ;
     box-sizing: border-box;
+    word-wrap:break-word ;
 }
 
 .msg_input{

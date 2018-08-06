@@ -5,6 +5,7 @@ import (
 	"github.com/gorilla/websocket"
 	"encoding/json"
 	"container/list"
+	"go-util/timeutil"
 )
 type M map[string]interface{}
 type MainController struct {
@@ -51,15 +52,16 @@ type Subscriber struct {
 }
 
 type Messager struct {
-	Name string
-	Context string
-	Type int
+	Name string `json:"name"`
+	Context string `json:"context"`
+	Type int `json:"type"`
+	Unix int64 `json:"unix"`
 }
 
 const (
-	MSG=1
-	OFFLINE=2
-	ONLINE=3
+	NORMAL_MSG=1
+	LEAVE_MSG=2
+	ENTER_MSG=3
 )
 
 var (
@@ -93,7 +95,8 @@ func (this *MainController)WS()  {
 		message <- Messager{
 			Name:name,
 			Context:string(p),
-			Type:MSG,
+			Type:NORMAL_MSG,
+			Unix:timeutil.Unix(),
 		}
 	}
 }
@@ -135,7 +138,8 @@ func handleChannel(){
 			message<-Messager{
 				Name:sub.Name,
 				Context:"上线",
-				Type:ONLINE,
+				Type:ENTER_MSG,
+				Unix:timeutil.Unix(),
 			}
 
 			subscribers.PushBack(sub)
@@ -157,7 +161,8 @@ func handleChannel(){
 			message<-Messager{
 				Name:unSubName,
 				Context:"下线",
-				Type:OFFLINE,
+				Type:LEAVE_MSG,
+				Unix:timeutil.Unix(),
 			}
 		}
 	}()
