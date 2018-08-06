@@ -1,16 +1,35 @@
-<!DOCTYPE html>
+
+
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>公共聊天室</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/chat.css" />
+
 </head>
+
 <body>
-    <div>欢迎：</div>
-    <div id="name"></div>
-    <input id="sendbox" >
-    <input id="sendbtn" type="button" value="send">
-    <div id="display"></div>
-</body>
+<header class="header">
+    {{/*<a class="back" href="javascript:history.back()"></a>*/}}
+    <h5 class="tit">公共聊天室</h5>
+    {{/*<div class="right">资料</div>*/}}
+</header>
+<div class="message">
+
+</div>
+<div class="footer">
+    <img src="/static/img/hua.png" alt="" />
+    <img src="/static/img/xiaolian.png" alt="" />
+    <input type="text" id="sendbox" />
+    <p id="sendbtn">发送</p>
+</div>
 <script src="/static/js/jquery-1.10.1.min.js"></script>
 <script src="/static/js/chatroom.js"></script>
+<script src="/static/js/flexible.js"></script>
+</body>
+
 </html>

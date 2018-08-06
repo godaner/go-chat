@@ -1,13 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
+
+<!doctype html>
+<html class="no-js">
 <head>
-    <meta charset="UTF-8">
-    <title>welcome</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>公共聊天室</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="stylesheet" href="/static/css/amazeui.min.css">
+    <link rel="stylesheet" href="/static/css/welcome.css">
 </head>
 <body>
-    <form action="/join" method="post">
-        name: <input id="name" name="name"/>
-        <input type="submit" value="join chat room">
-    </form>
+
+<div class="am-g myapp-login">
+    <div class="myapp-login-bg">
+        <div class="myapp-login-logo">
+            <i class="am-icon-stumbleupon"></i>
+        </div>
+        <div class="am-u-sm-10 myapp-login-form">
+            <form class="am-form"  action="/join" method="post">
+                <fieldset>
+
+                    <div class="am-form-group">
+                        <input type="text" class="" id="doc-ipt-email-1"  name="name" value="输入您的昵称" placeholder="">
+
+                    </div>
+
+                    <p><button type="submit" class="am-btn am-btn-default">进入</button></p>
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="/static/js/jquery-1.10.1.min.js"></script>
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="/static/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="/static/js/amazeui.min.js"></script>
+<script src="/static/js/welcome.js"></script>
 </body>
 </html>
