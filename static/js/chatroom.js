@@ -65,12 +65,10 @@ $(function () {
 
 });
 
-const SUCCESS = 1;
-const FAILURE = 2;
 function checkName(checkSuccess) {
-    var name = localStorage.getItem("name");
+    var name = localStorage.getItem(KEY_OF_NAME);
     if(name == undefined||name==""){
-        location.href = "http://" + window.location.host;
+        toHome();
         return ;
     }
     //check name
@@ -95,13 +93,14 @@ function checkName(checkSuccess) {
                 });
                 checkSuccess(name);
             }else if(data.code == FAILURE){
-                location.href = "http://" + window.location.host;
+                toHome();
                 return;
             }
 
         }
     })
 }
+
 function conectWS(name) {
     // Create a socket
     socket = new WebSocket('ws://' + window.location.host + '/ws?name=' + name);
@@ -112,6 +111,12 @@ function conectWS(name) {
         var data = JSON.parse(event.data);
         console.info(data);
         showMsg(data);
+
+    };
+    //close
+    socket.onclose = function (event) {
+        localStorage.removeItem(KEY_OF_NAME);
+        toHome();
 
     };
 

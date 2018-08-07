@@ -1,6 +1,4 @@
 
-const SUCCESS = 1;
-const FAILURE = 2;
 $(function () {
     var $fullText = $('.admin-fullText');
     $('#admin-fullscreen').on('click', function() {
@@ -47,10 +45,8 @@ $(function () {
                             //按下确定按钮执行的操作
                             this.hide();
                             if(data.code == SUCCESS){
-                                localStorage.setItem("name",data.data.name);
-                                location.href = "http://" + window.location.host+"/chatroom";
-                            }else{
-
+                                localStorage.setItem(KEY_OF_NAME,data.data.name);
+                                toChatRoom();
                             }
                         }
                     }

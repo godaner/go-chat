@@ -141,6 +141,7 @@ func (this *MainController)WS()  {
 			Unix:timeutil.Unix(),
 		}
 	}
+
 }
 func LeaveWS(name string) {
 	unsubscribe<-name
@@ -229,5 +230,6 @@ func init() {
 func createWS(this *MainController) *websocket.Conn {
 	// Upgrade from http request to WebSocket.
 	ws, _ := websocket.Upgrade(this.Ctx.ResponseWriter, this.Ctx.Request, nil, 1024, 1024)
+
 	return ws
 }
