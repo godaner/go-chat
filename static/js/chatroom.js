@@ -88,7 +88,7 @@ function conectWS() {
         success:function (data) {
             if(data.code == SUCCESS){
                 left({
-                    headStr:data.name,
+                    headStr:name,
                     str:redMsg("系统消息 : 检测成功"),
                     headBgColor:headBgColor,
                     headColor:headColor,
