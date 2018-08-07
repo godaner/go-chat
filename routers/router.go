@@ -6,11 +6,11 @@ import (
 )
 
 func init() {
-	//page
-    beego.Router("/welcome", &controllers.MainController{},"get:Welcome")
+	//static
+    beego.Router("/", &controllers.MainController{},"GET:Welcome")
+    beego.Router("/chatroom", &controllers.MainController{},"GET:Chatroom")
     //controller
     beego.Router("/join", &controllers.MainController{},"POST:Join")
-    beego.Router("/name", &controllers.MainController{},"GET:GetName")
-	// WebSocket.
+	//WebSocket.
 	beego.Router("/ws", &controllers.MainController{},"*:WS")
 }

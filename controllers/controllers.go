@@ -6,6 +6,8 @@ import (
 	"encoding/json"
 	"container/list"
 	"go-util/timeutil"
+	"strings"
+	"go-chat/models"
 )
 type M map[string]interface{}
 type MainController struct {
@@ -16,33 +18,50 @@ const (
 	VIEWS_WELCOME =  "welcome.html"
 	VIEWS_CHAT_ROOM =  "chatroom.html"
 )
+
 func (this *MainController) Welcome() {
 	this.TplName = VIEWS_WELCOME
 }
+func (this *MainController) Chatroom() {
+	this.TplName = VIEWS_CHAT_ROOM
+}
 
 func (this *MainController) Join() {
-	name:=this.GetString("name")
 
+	name:=this.GetString("name")
+	if strings.Trim(name," ")=="" {
+		beego.Info("MainController Join name is empty : ",name)
+		this.Data["json"] = models.Response{
+			Code:models.FAILURE,
+			Msg:"昵称不能为空",
+		}
+		this.ServeJSON()
+		return
+	}
 
 	for sub:=subscribers.Front();sub!=nil;sub = sub.Next(){
 		if sub.Value.(Subscriber).Name == name {
-			this.TplName = VIEWS_WELCOME
 			beego.Info("MainController Join name is exist : ",name)
+			this.Data["json"] = models.Response{
+				Code:models.FAILURE,
+				Msg:"昵称已存在",
+			}
+			this.ServeJSON()
 			return
 		}
 	}
 
-	beego.Info("MainController Join session name is : ",name)
+	beego.Info("MainController Join success , name is : ",name)
 
-	this.SetSession("name",name)
-	this.TplName = VIEWS_CHAT_ROOM
-}
-
-func (this *MainController) GetName(){
-	sessionName:=this.GetSession("name")
-	beego.Info("MainController GetName session name is : ",sessionName)
-	this.Data["json"] = M{"name": sessionName}
+	this.Data["json"] = models.Response{
+		Code:models.SUCCESS,
+		Msg:"加入成功",
+		Data:models.M{
+			"name":name,
+		},
+	}
 	this.ServeJSON()
+
 }
 
 

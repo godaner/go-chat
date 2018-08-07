@@ -57,59 +57,61 @@ var $sendbox = undefined;
 $(function () {
 
     //$
-    $sendbtn = $("#sendbtn")
-    $sendbox = $("#sendbox")
+    $sendbtn = $("#sendbtn");
+    $sendbox = $("#sendbox");
 
     //ajax
+    conectWS();
 
-    $.ajax({
-        url:"http://" + window.location.host + "/name",
-        method:"GET",
-        dataType: "json",
-        success:function (data) {
-            // Create a socket
-            socket = new WebSocket('ws://' + window.location.host + '/ws?name=' + data.name);
-            //title
-            $(".tit").html("欢迎 : "+data.name);
-            // Receive msg
-            socket.onmessage = function (event) {
-                var data = JSON.parse(event.data);
-                console.info(data)
-                showMsg(data)
-
-            };
-
-            // Send messages.
-            var postConecnt = function () {
-                if(enbaleSend == false){
-                    return ;
-                }
-                var content = $('#sendbox').val();
-                socket.send(content);
-                enableSendBtn(false);
-                $('#sendbox').focus();
-                $('#sendbox').val('');
-            }
-
-            //enable input ?
-            $sendbox.keyup(function(event){
-                enableSendBtn($(this).val().length>0)
-
-                if(event.keyCode == 13)
-                {
-                    postConecnt();
-                }
-
-            })
-            //send
-            $('#sendbtn').click(function(){
-
-                postConecnt();
-            })
-
-        }
-    })
 })
+
+function conectWS() {
+    var name = localStorage.getItem("name");
+    if(name == undefined||name==""){
+        location.href = "http://" + window.location.host;
+        return ;
+    }
+    // Create a socket
+    socket = new WebSocket('ws://' + window.location.host + '/ws?name=' + name);
+    //title
+    $(".tit").html("欢迎 : "+name);
+    // Receive msg
+    socket.onmessage = function (event) {
+        var data = JSON.parse(event.data);
+        console.info(data);
+        showMsg(data);
+
+    };
+
+    // Send messages.
+    var postConecnt = function () {
+        if(enbaleSend == false){
+            return ;
+        }
+        var content = $('#sendbox').val();
+        socket.send(content);
+        enableSendBtn(false);
+        $('#sendbox').focus();
+        $('#sendbox').val('');
+    }
+
+    //enable input ?
+    $sendbox.keyup(function(event){
+        enableSendBtn($(this).val().length>0)
+
+        if(event.keyCode == 13)
+        {
+            postConecnt();
+        }
+
+    })
+    //send
+    $('#sendbtn').click(function(){
+
+        postConecnt();
+    })
+
+}
 
 
 var enbaleSend = false;

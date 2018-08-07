@@ -3,4 +3,4 @@
 # run 
 	bee run
 # visit
-	addr : http://localhost:8080/welcome
+	addr : http://localhost:8080/
