@@ -28,7 +28,7 @@ function showMsg(data) {
     }else if(ENTER_MSG==data.type){
         left({
             headStr:data.name,
-            str:greenMsg("系统消息 : 用户 \""+data.name+"\" 已上线 "),
+            str:redMsg("系统消息 : 用户 \""+data.name+"\" 已上线 "),
             headBgColor:headBgColor,
             headColor:headColor,
         });
@@ -75,8 +75,8 @@ function conectWS() {
     }
     //check name
     left({
-        headStr:data.name,
-        str:redMsg("系统消息 : 检测中... "),
+        headStr:name,
+        str:redMsg("系统消息 : 上网状态检测中... "),
         headBgColor:headBgColor,
         headColor:headColor,
     });
@@ -89,7 +89,7 @@ function conectWS() {
             if(data.code == SUCCESS){
                 left({
                     headStr:data.name,
-                    str:redMsg("系统消息 : 检测中成功"),
+                    str:redMsg("系统消息 : 检测成功"),
                     headBgColor:headBgColor,
                     headColor:headColor,
                 });
