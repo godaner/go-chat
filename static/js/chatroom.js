@@ -60,14 +60,14 @@ $(function () {
     $sendbtn = $("#sendbtn");
     $sendbox = $("#sendbox");
 
-    //ajax
-    conectWS();
+    checkName(conectWS)
 
-})
+
+});
 
 const SUCCESS = 1;
 const FAILURE = 2;
-function conectWS() {
+function checkName(checkSuccess) {
     var name = localStorage.getItem("name");
     if(name == undefined||name==""){
         location.href = "http://" + window.location.host;
@@ -93,15 +93,16 @@ function conectWS() {
                     headBgColor:headBgColor,
                     headColor:headColor,
                 });
+                checkSuccess(name);
             }else if(data.code == FAILURE){
                 location.href = "http://" + window.location.host;
+                return;
             }
 
         }
     })
-
-
-
+}
+function conectWS(name) {
     // Create a socket
     socket = new WebSocket('ws://' + window.location.host + '/ws?name=' + name);
     //title
