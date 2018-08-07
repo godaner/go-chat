@@ -39,11 +39,23 @@ $(function () {
             dataType: "json",
             data:{name:name},
             success:function (data) {
-                alert(data.msg);
-                if(data.code == SUCCESS){
-                    localStorage.setItem("name",data.data.name);
-                    location.href = "http://" + window.location.host+"/chatroom";
-                }
+                popTipShow.alert('提示',data.msg, ['知道了'],
+                    function(e){
+                        //callback 处理按钮事件
+                        var button = $(e.target).attr('class');
+                        if(button == 'ok'){
+                            //按下确定按钮执行的操作
+                            this.hide();
+                            if(data.code == SUCCESS){
+                                localStorage.setItem("name",data.data.name);
+                                location.href = "http://" + window.location.host+"/chatroom";
+                            }else{
+
+                            }
+                        }
+                    }
+                );
+
             }
         })
     })

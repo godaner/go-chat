@@ -65,12 +65,43 @@ $(function () {
 
 })
 
+const SUCCESS = 1;
+const FAILURE = 2;
 function conectWS() {
     var name = localStorage.getItem("name");
     if(name == undefined||name==""){
         location.href = "http://" + window.location.host;
         return ;
     }
+    //check name
+    left({
+        headStr:data.name,
+        str:redMsg("系统消息 : 检测中... "),
+        headBgColor:headBgColor,
+        headColor:headColor,
+    });
+    $.ajax({
+        url:"http://" + window.location.host + "/checkName",
+        method:"POST",
+        dataType: "json",
+        data:{name:name},
+        success:function (data) {
+            if(data.code == SUCCESS){
+                left({
+                    headStr:data.name,
+                    str:redMsg("系统消息 : 检测中成功"),
+                    headBgColor:headBgColor,
+                    headColor:headColor,
+                });
+            }else if(data.code == FAILURE){
+                location.href = "http://" + window.location.host;
+            }
+
+        }
+    })
+
+
+
     // Create a socket
     socket = new WebSocket('ws://' + window.location.host + '/ws?name=' + name);
     //title

@@ -64,6 +64,29 @@ func (this *MainController) Join() {
 
 }
 
+func (this *MainController) CheckName(){
+	name:=this.GetString("name")
+	for sub:=subscribers.Front();sub!=nil;sub = sub.Next(){
+		if sub.Value.(Subscriber).Name == name {
+			beego.Info("MainController Join name is exist : ",name)
+			this.Data["json"] = models.Response{
+				Code:models.FAILURE,
+				Msg:"昵称已存在",
+			}
+			this.ServeJSON()
+			return
+		}
+	}
+	this.Data["json"] = models.Response{
+		Code:models.SUCCESS,
+		Msg:"可以进入聊天",
+		Data:models.M{
+			"name":name,
+		},
+	}
+	this.ServeJSON()
+}
+
 
 type Subscriber struct {
 	Name string
