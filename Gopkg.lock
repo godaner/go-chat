@@ -21,6 +21,14 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:c5d88cc75c76d80a8ce31efd765c31c74f4f0be66cd7a2268a5046c5de2cd087"
+  name = "github.com/godaner/go-util"
+  packages = ["timeutil"]
+  pruneopts = "UT"
+  revision = "b5a3b96b4be90a1d9c6af48abbafe3a1b5a8b8d1"
+
+[[projects]]
+  branch = "master"
   digest = "1:f14d1b50e0075fb00177f12a96dd7addf93d1e2883c25befd17285b779549795"
   name = "github.com/gopherjs/gopherjs"
   packages = ["js"]
@@ -68,14 +76,15 @@
   version = "1.6.3"
 
 [[projects]]
-  digest = "1:a2057c5b6feb8feb081ce9987f0e4d0713c6b3a6d3824900e35750f349223a25"
+  branch = "master"
+  digest = "1:dedf20eb0d3e8d6aa8a4d3d2fae248222b688ed528201995e152cc497899123c"
   name = "golang.org/x/crypto"
   packages = [
     "acme",
     "acme/autocert",
   ]
   pruneopts = "UT"
-  revision = "c126467f60eb25f8f27e5a981f32a87e3965053f"
+  revision = "de0752318171da717af4ce24d0a2e8626afaeb11"
 
 [[projects]]
   digest = "1:342378ac4dcb378a5448dd723f0784ae519383532f5e70ade24132c4c8693202"
@@ -90,6 +99,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/astaxie/beego",
+    "github.com/godaner/go-util/timeutil",
     "github.com/gorilla/websocket",
     "github.com/smartystreets/goconvey/convey",
   ]

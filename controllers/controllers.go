@@ -5,7 +5,7 @@ import (
 	"github.com/gorilla/websocket"
 	"encoding/json"
 	"container/list"
-	"go-util/timeutil"
+	"github.com/godaner/go-util/timeutil"
 	"strings"
 	"go-chat/models"
 )
