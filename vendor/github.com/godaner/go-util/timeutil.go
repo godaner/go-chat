@@ -1,4 +1,4 @@
-package timeutil
+package go_util
 
 import (
 	"strconv"

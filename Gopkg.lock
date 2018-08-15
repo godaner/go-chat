@@ -21,11 +21,19 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:c5d88cc75c76d80a8ce31efd765c31c74f4f0be66cd7a2268a5046c5de2cd087"
-  name = "github.com/godaner/go-util"
-  packages = ["timeutil"]
+  digest = "1:ca1bfe03324601a4bd42482a331449c5f387ac014376b55515910ec3295ea15c"
+  name = "github.com/bwmarrin/snowflake"
+  packages = ["."]
   pruneopts = "UT"
-  revision = "b5a3b96b4be90a1d9c6af48abbafe3a1b5a8b8d1"
+  revision = "68117e6bbede4dd72d70c7a58d73348ead068509"
+
+[[projects]]
+  branch = "master"
+  digest = "1:99f1bf07267daef7fe629cd4534e77ab41afa90f04714d15b74c0eb225db013e"
+  name = "github.com/godaner/go-util"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "aad915851b1f2e3dbcfe2bd34d213d86a6a741a7"
 
 [[projects]]
   branch = "master"
@@ -50,6 +58,14 @@
   pruneopts = "UT"
   revision = "77f18212c9c7edc9bd6a33d383a7b545ce62f064"
   version = "v4.2.1"
+
+[[projects]]
+  digest = "1:40e195917a951a8bf867cd05de2a46aaf1806c50cf92eebf4c16f78cd196f747"
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
+  version = "v0.8.0"
 
 [[projects]]
   digest = "1:cc1c574c9cb5e99b123888c12b828e2d19224ab6c2244bda34647f230bf33243"
@@ -99,7 +115,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/astaxie/beego",
-    "github.com/godaner/go-util/timeutil",
+    "github.com/godaner/go-util",
     "github.com/gorilla/websocket",
     "github.com/smartystreets/goconvey/convey",
   ]

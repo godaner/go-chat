@@ -5,7 +5,7 @@ import (
 	"github.com/gorilla/websocket"
 	"encoding/json"
 	"container/list"
-	"github.com/godaner/go-util/timeutil"
+	"github.com/godaner/go-util"
 	"strings"
 	"go-chat/models"
 )
@@ -138,7 +138,7 @@ func (this *MainController)WS()  {
 			Name:name,
 			Context:string(p),
 			Type:NORMAL_MSG,
-			Unix:timeutil.Unix(),
+			Unix:go_util.Unix(),
 		}
 	}
 
@@ -182,7 +182,7 @@ func handleChannel(){
 				Name:sub.Name,
 				Context:"上线",
 				Type:ENTER_MSG,
-				Unix:timeutil.Unix(),
+				Unix:go_util.Unix(),
 			}
 
 			subscribers.PushBack(sub)
@@ -205,7 +205,7 @@ func handleChannel(){
 				Name:unSubName,
 				Context:"下线",
 				Type:LEAVE_MSG,
-				Unix:timeutil.Unix(),
+				Unix:go_util.Unix(),
 			}
 		}
 	}()
