@@ -35,7 +35,7 @@ func (this *MainController) Join() {
 		beego.Info("MainController Join name is empty : ",name)
 		this.Data["json"] = models.Response{
 			Code:models.FAILURE,
-			Msg:"昵称不能为空",
+			Msg:"gravatar邮箱不能为空",
 		}
 		this.ServeJSON()
 		return
@@ -56,7 +56,7 @@ func (this *MainController) Join() {
 			beego.Info("MainController Join name is exist : ",name)
 			this.Data["json"] = models.Response{
 				Code:models.FAILURE,
-				Msg:"昵称已存在",
+				Msg:"gravatar邮箱已在聊天室中",
 			}
 			this.ServeJSON()
 			return
@@ -166,6 +166,7 @@ func (this *MainController)WS()  {
 			Context:string(p),
 			Type:NORMAL_MSG,
 			Unix:go_util.Unix(),
+
 		}
 	}
 

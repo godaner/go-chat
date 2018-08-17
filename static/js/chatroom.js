@@ -8,19 +8,16 @@ function showMsg(data) {
     if(NORMAL_MSG==data.type){
 
         left({
-            headImgUrl:headImgUrl,
             name:data.name,
             str:data.context,
         });
     }else if(ENTER_MSG==data.type){
         left({
-            headImgUrl:headImgUrl,
             name:data.name,
             str:redMsg("系统消息 : 用户 \""+data.name+"\" 已上线 "),
         });
     }else if(LEAVE_MSG==data.type){
         left({
-            headImgUrl:headImgUrl,
             name:data.name,
             str:redMsg("系统消息 : 用户 \""+data.name+"\" 已下线 "),
         });
@@ -49,48 +46,31 @@ $(function () {
 
 
 });
-var headImgUrl = undefined
 function check(checkSuccess) {
     var name = localStorage.getItem(KEY_OF_NAME);
     if(name == undefined||name==""){
         toHome();
         return ;
     }
+
+    //check name
+    left({
+        name:name,
+        str:redMsg("系统消息 : 上网状态检测中... "),
+    });
     $.ajax({
-        url:"http://" + window.location.host + "/headImgUrl",
-        method:"GET",
+        url:"http://" + window.location.host + "/check",
+        method:"POST",
         dataType: "json",
         data:{name:name},
         success:function (data) {
             if(data.code == SUCCESS){
-                headImgUrl = data.data.headImgUrl;
-                //check name
                 left({
-                    headImgUrl:headImgUrl,
+                    headImgUrl:gravatar(name),
                     name:name,
-                    str:redMsg("系统消息 : 上网状态检测中... "),
+                    str:redMsg("系统消息 : 检测成功"),
                 });
-                $.ajax({
-                    url:"http://" + window.location.host + "/check",
-                    method:"POST",
-                    dataType: "json",
-                    data:{name:name},
-                    success:function (data) {
-                        if(data.code == SUCCESS){
-                            left({
-                                headImgUrl:headImgUrl,
-                                name:name,
-                                str:redMsg("系统消息 : 检测成功"),
-                            });
-                            checkSuccess(name);
-                        }else if(data.code == FAILURE){
-                            toHome();
-                            return;
-                        }
-
-                    }
-                })
-
+                checkSuccess(name);
             }else if(data.code == FAILURE){
                 toHome();
                 return;
@@ -98,6 +78,7 @@ function check(checkSuccess) {
 
         }
     })
+
 
 }
 
@@ -158,26 +139,39 @@ function enableSendBtn(enable){
     $sendbtn.css('background',enbaleSend?'#114F8E':'#ddd').prop('disabled',!enbaleSend);
 }
 
+function uuid() {
+    var s = [];
+    var hexDigits = "0123456789abcdef";
+    for (var i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+    }
+    s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+    s[8] = s[13] = s[18] = s[23] = "-";
 
+    var uuid = s.join("");
+    return uuid;
+}
 function left(data){
-    var html="<div class='send'>" +
-        "<div class='msg'><img src='"+data.headImgUrl+"'/>"+
+    var id=uuid()
+    var html="<div id='"+id+"' class='send'>" +
+        "<div class='msg'><img src='"+gravatar(data.name)+"'/>"+
         "<p>" +
-        "<span style='font-size: 0.1rem;color: #0BB20C'>"+data.name+" : <span><br/>"+
+        "<span style='font-size: 0.25rem;color: #0BB20C'>"+data.name+" : <span><br/>"+
         "<i class='msg_input'></i>"+
-        "<span style='font-size: 0.3rem;color:black'>"+data.str+"</span>"+
+        "<span style='font-size: 0.35rem;color:black'>"+data.str+"</span>"+
         "</p>" +
         "</div>" +
         "</div>";
-    upView(html);
+    upView(html,id);
 
 }
-function right(data){
-    var html="<div class='show'><div class='msg'><img src='"+data.headImgUrl+"'/>"+
-        "<p><i class='msg_input'></i>"+data.str+"</p></div></div>";
-    upView(html);
-}
-function upView(html){
+
+function upView(html,id){
     $('.message').append(html);
-    $('body').animate({scrollTop:$('.message').outerHeight()-window.innerHeight},200)
+
+    $("html,body").animate({scrollTop: $("div#"+id).offset().top}, 500);
+    // var scrollHeight = $('.message').prop("scrollHeight");
+    // $('.message').animate({scrollTop:scrollHeight}, 100);
+
 }
