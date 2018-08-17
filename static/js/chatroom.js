@@ -185,9 +185,10 @@ function left(data){
     var html="<div class='send'><div class='msg'><img src='"+data.headImgUrl+"'/>"+
         "<p><i class='msg_input'></i>"+data.str+"</p></div></div>";
     upView(html);
+
 }
 function right(data){
-    var html="<div class='show'><div class='msg'><div title='"+data.headStr+"' style='background: "+data.headBgColor+";color:"+data.headColor+"'>"+data.headStr+"</div>"+
+    var html="<div class='show'><div class='msg'><img src='"+data.headImgUrl+"'/>"+
         "<p><i class='msg_input'></i>"+data.str+"</p></div></div>";
     upView(html);
 }

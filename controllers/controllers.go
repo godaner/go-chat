@@ -79,12 +79,12 @@ func (this *MainController) Join() {
 func (this *MainController) GetHeadImgUrl(){
 	email:=this.GetString("name")
 	log.Println("GetHeadImgUrl start ! email is : ",email)
-	headUrl:=gravatar.SecureUrl(email)
-	log.Println("GetHeadImgUrl make headUrl success ! email is : ",email," , headUrl is : ",headUrl)
+	headImgUrl:=gravatar.SecureUrl(email)
+	log.Println("GetHeadImgUrl make headUrl success ! email is : ",email," , headImgUrl is : ",headImgUrl)
 	this.Data["json"] = models.Response{
 		Code:models.SUCCESS,
 		Data:models.M{
-			"headUrl":headUrl,
+			"headImgUrl":headImgUrl,
 		},
 		Msg:"获取头像url成功",
 	}
