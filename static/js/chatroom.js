@@ -20,6 +20,7 @@ function showMsg(data) {
     if(NORMAL_MSG==data.type){
 
         left({
+            headImgUrl:headImgUrl,
             headStr:data.name,
             str:data.context,
             headBgColor:headBgColor,
@@ -27,6 +28,7 @@ function showMsg(data) {
         });
     }else if(ENTER_MSG==data.type){
         left({
+            headImgUrl:headImgUrl,
             headStr:data.name,
             str:redMsg("系统消息 : 用户 \""+data.name+"\" 已上线 "),
             headBgColor:headBgColor,
@@ -34,6 +36,7 @@ function showMsg(data) {
         });
     }else if(LEAVE_MSG==data.type){
         left({
+            headImgUrl:headImgUrl,
             headStr:data.name,
             str:redMsg("系统消息 : 用户 \""+data.name+"\" 已下线 "),
             headBgColor:headBgColor,
@@ -60,38 +63,56 @@ $(function () {
     $sendbtn = $("#sendbtn");
     $sendbox = $("#sendbox");
 
-    checkName(conectWS)
+    check(conectWS)
 
 
 });
-
-function checkName(checkSuccess) {
+var headImgUrl = undefined
+function check(checkSuccess) {
     var name = localStorage.getItem(KEY_OF_NAME);
     if(name == undefined||name==""){
         toHome();
         return ;
     }
-    //check name
-    left({
-        headStr:name,
-        str:redMsg("系统消息 : 上网状态检测中... "),
-        headBgColor:headBgColor,
-        headColor:headColor,
-    });
     $.ajax({
-        url:"http://" + window.location.host + "/checkName",
-        method:"POST",
+        url:"http://" + window.location.host + "/headImgUrl",
+        method:"GET",
         dataType: "json",
         data:{name:name},
         success:function (data) {
             if(data.code == SUCCESS){
+                headImgUrl = data.data.headImgUrl;
+                //check name
                 left({
+                    headImgUrl:headImgUrl,
                     headStr:name,
-                    str:redMsg("系统消息 : 检测成功"),
+                    str:redMsg("系统消息 : 上网状态检测中... "),
                     headBgColor:headBgColor,
                     headColor:headColor,
                 });
-                checkSuccess(name);
+                $.ajax({
+                    url:"http://" + window.location.host + "/check",
+                    method:"POST",
+                    dataType: "json",
+                    data:{name:name},
+                    success:function (data) {
+                        if(data.code == SUCCESS){
+                            left({
+                                headImgUrl:headImgUrl,
+                                headStr:name,
+                                str:redMsg("系统消息 : 检测成功"),
+                                headBgColor:headBgColor,
+                                headColor:headColor,
+                            });
+                            checkSuccess(name);
+                        }else if(data.code == FAILURE){
+                            toHome();
+                            return;
+                        }
+
+                    }
+                })
+
             }else if(data.code == FAILURE){
                 toHome();
                 return;
@@ -99,6 +120,7 @@ function checkName(checkSuccess) {
 
         }
     })
+
 }
 
 function conectWS(name) {
@@ -160,7 +182,7 @@ function enableSendBtn(enable){
 
 
 function left(data){
-    var html="<div class='send'><div class='msg'><div title='"+data.headStr+"' style='background: "+data.headBgColor+";color:"+data.headColor+"'>"+data.headStr+"</div>"+
+    var html="<div class='send'><div class='msg'><img src='"+data.headImgUrl+"'/>"+
         "<p><i class='msg_input'></i>"+data.str+"</p></div></div>";
     upView(html);
 }

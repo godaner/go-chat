@@ -8,6 +8,8 @@ import (
 	"github.com/godaner/go-util"
 	"strings"
 	"go-chat/models"
+	"github.com/ungerik/go-gravatar"
+	"log"
 )
 type M map[string]interface{}
 type MainController struct {
@@ -38,6 +40,16 @@ func (this *MainController) Join() {
 		this.ServeJSON()
 		return
 	}
+	ok,err:=gravatar.Available(name)
+	if err!= nil||!ok{
+		beego.Info("Join Available is err ! err is : ",err)
+		this.Data["json"] = models.Response{
+			Code:models.FAILURE,
+			Msg:"gravatar不存在该邮箱",
+		}
+		this.ServeJSON()
+		return
+	}
 
 	for sub:=subscribers.Front();sub!=nil;sub = sub.Next(){
 		if sub.Value.(Subscriber).Name == name {
@@ -64,6 +76,21 @@ func (this *MainController) Join() {
 
 }
 
+func (this *MainController) GetHeadImgUrl(){
+	email:=this.GetString("name")
+	log.Println("GetHeadImgUrl start ! email is : ",email)
+	headUrl:=gravatar.SecureUrl(email)
+	log.Println("GetHeadImgUrl make headUrl success ! email is : ",email," , headUrl is : ",headUrl)
+	this.Data["json"] = models.Response{
+		Code:models.SUCCESS,
+		Data:models.M{
+			"headUrl":headUrl,
+		},
+		Msg:"获取头像url成功",
+	}
+	this.ServeJSON()
+	return
+}
 func (this *MainController) CheckName(){
 	name:=this.GetString("name")
 	for sub:=subscribers.Front();sub!=nil;sub = sub.Next(){

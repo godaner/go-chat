@@ -93,6 +93,14 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:060cdd6f78c3647f8cd17df18f6299c385484a1dc0e36c1e31883b5a78e7b538"
+  name = "github.com/ungerik/go-gravatar"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "6ab22628222adee0d853df36a2f0783f56ea55ec"
+
+[[projects]]
+  branch = "master"
   digest = "1:dedf20eb0d3e8d6aa8a4d3d2fae248222b688ed528201995e152cc497899123c"
   name = "golang.org/x/crypto"
   packages = [
@@ -118,6 +126,7 @@
     "github.com/godaner/go-util",
     "github.com/gorilla/websocket",
     "github.com/smartystreets/goconvey/convey",
+    "github.com/ungerik/go-gravatar",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
