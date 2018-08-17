@@ -6,18 +6,21 @@ const ENTER_MSG=3
 
 function showMsg(data) {
     if(NORMAL_MSG==data.type){
-
-        left({
+        displayMsg({
+            currtName:data.currtName,
             name:data.name,
             str:data.context,
         });
+
     }else if(ENTER_MSG==data.type){
-        left({
+        displayMsg({
+            currtName:data.currtName,
             name:data.name,
             str:redMsg("系统消息 : 用户 \""+data.name+"\" 已上线 "),
         });
     }else if(LEAVE_MSG==data.type){
-        left({
+        displayMsg({
+            currtName:data.currtName,
             name:data.name,
             str:redMsg("系统消息 : 用户 \""+data.name+"\" 已下线 "),
         });
@@ -54,7 +57,8 @@ function check(checkSuccess) {
     }
 
     //check name
-    left({
+    displayMsg({
+        currtName:name,
         name:name,
         str:redMsg("系统消息 : 上网状态检测中... "),
     });
@@ -65,8 +69,8 @@ function check(checkSuccess) {
         data:{name:name},
         success:function (data) {
             if(data.code == SUCCESS){
-                left({
-                    headImgUrl:gravatar(name),
+                displayMsg({
+                    currtName:name,
                     name:name,
                     str:redMsg("系统消息 : 检测成功"),
                 });
@@ -81,7 +85,6 @@ function check(checkSuccess) {
 
 
 }
-
 function conectWS(name) {
     // Create a socket
     socket = new WebSocket('ws://' + window.location.host + '/ws?name=' + name);
@@ -91,6 +94,7 @@ function conectWS(name) {
     socket.onmessage = function (event) {
         var data = JSON.parse(event.data);
         console.info(data);
+        data["currtName"] = name;
         showMsg(data);
 
     };
@@ -98,7 +102,6 @@ function conectWS(name) {
     socket.onclose = function (event) {
         localStorage.removeItem(KEY_OF_NAME);
         toHome();
-
     };
 
     // Send messages.
@@ -152,14 +155,18 @@ function uuid() {
     var uuid = s.join("");
     return uuid;
 }
-function left(data){
+function displayMsg(data){
+    var way="send"
+    if(data.name==data.currtName){
+        way="show"
+    }
     var id=uuid()
-    var html="<div id='"+id+"' class='send'>" +
+    var html="<div id='"+id+"' class='"+way+"'>" +
         "<div class='msg'><img src='"+gravatar(data.name)+"'/>"+
         "<p>" +
         "<span style='font-size: 0.25rem;color: #0BB20C'>"+data.name+" : <span><br/>"+
         "<i class='msg_input'></i>"+
-        "<span style='font-size: 0.35rem;color:black'>"+data.str+"</span>"+
+        "<span style='font-size: 0.30rem;color:black'>"+data.str+"</span>"+
         "</p>" +
         "</div>" +
         "</div>";
@@ -167,11 +174,10 @@ function left(data){
 
 }
 
+
 function upView(html,id){
     $('.message').append(html);
 
     $("html,body").animate({scrollTop: $("div#"+id).offset().top}, 500);
-    // var scrollHeight = $('.message').prop("scrollHeight");
-    // $('.message').animate({scrollTop:scrollHeight}, 100);
 
 }
