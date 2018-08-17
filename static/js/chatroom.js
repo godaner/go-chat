@@ -3,44 +3,26 @@ const LEAVE_MSG=2
 const ENTER_MSG=3
 
 
-var headBgColorArr=["black","rgb(15,133,244)","green"]
-var headColorArr=["white","white","white"]
-var headBgColorArrLen = headBgColorArr.length;
-var headColorArrLen = headColorArr.length;
-var randomNum = randomNum(headBgColorArrLen>headColorArrLen?headColorArrLen:headBgColorArrLen)
-
-var headBgColor=headBgColorArr[randomNum];
-var headColor=headColorArr[randomNum];
-
-function randomNum(max){
-    return parseInt(Math.random()*max)
-}
 
 function showMsg(data) {
     if(NORMAL_MSG==data.type){
 
         left({
             headImgUrl:headImgUrl,
-            headStr:data.name,
+            name:data.name,
             str:data.context,
-            headBgColor:headBgColor,
-            headColor:headColor,
         });
     }else if(ENTER_MSG==data.type){
         left({
             headImgUrl:headImgUrl,
-            headStr:data.name,
+            name:data.name,
             str:redMsg("系统消息 : 用户 \""+data.name+"\" 已上线 "),
-            headBgColor:headBgColor,
-            headColor:headColor,
         });
     }else if(LEAVE_MSG==data.type){
         left({
             headImgUrl:headImgUrl,
-            headStr:data.name,
+            name:data.name,
             str:redMsg("系统消息 : 用户 \""+data.name+"\" 已下线 "),
-            headBgColor:headBgColor,
-            headColor:headColor,
         });
     }
 }
@@ -85,10 +67,8 @@ function check(checkSuccess) {
                 //check name
                 left({
                     headImgUrl:headImgUrl,
-                    headStr:name,
+                    name:name,
                     str:redMsg("系统消息 : 上网状态检测中... "),
-                    headBgColor:headBgColor,
-                    headColor:headColor,
                 });
                 $.ajax({
                     url:"http://" + window.location.host + "/check",
@@ -99,10 +79,8 @@ function check(checkSuccess) {
                         if(data.code == SUCCESS){
                             left({
                                 headImgUrl:headImgUrl,
-                                headStr:name,
+                                name:name,
                                 str:redMsg("系统消息 : 检测成功"),
-                                headBgColor:headBgColor,
-                                headColor:headColor,
                             });
                             checkSuccess(name);
                         }else if(data.code == FAILURE){
@@ -182,8 +160,15 @@ function enableSendBtn(enable){
 
 
 function left(data){
-    var html="<div class='send'><div class='msg'><img src='"+data.headImgUrl+"'/>"+
-        "<p><i class='msg_input'></i>"+data.str+"</p></div></div>";
+    var html="<div class='send'>" +
+        "<div class='msg'><img src='"+data.headImgUrl+"'/>"+
+        "<p>" +
+        "<span style='font-size: 0.1rem;color: #0BB20C'>"+data.name+" : <span><br/>"+
+        "<i class='msg_input'></i>"+
+        "<span style='font-size: 0.3rem;color:black'>"+data.str+"</span>"+
+        "</p>" +
+        "</div>" +
+        "</div>";
     upView(html);
 
 }
